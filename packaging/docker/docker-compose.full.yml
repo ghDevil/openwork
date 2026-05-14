@@ -21,6 +21,8 @@ services:
       dockerfile: packaging/docker/Dockerfile.web
       args:
         VITE_OPENWORK_DEPLOYMENT: web
+        VITE_OPENWORK_URL: ${VITE_OPENWORK_URL}
+        VITE_OPENWORK_TOKEN: ${VITE_OPENWORK_TOKEN}
     ports:
       - "80"
     depends_on:
