@@ -1,0 +1,28 @@
+services:
+  openwork-host:
+    build:
+      context: ../..
+      dockerfile: packaging/docker/Dockerfile
+      args:
+        OPENWORK_ORCHESTRATOR_VERSION: 0.13.8
+    expose:
+      - "8787"
+    environment:
+      OPENWORK_DATA_DIR: /data/openwork-orchestrator
+      OPENWORK_SIDECAR_DIR: /data/sidecars
+    volumes:
+      - ./workspace:/workspace
+      - ./data:/data
+    restart: unless-stopped
+
+  openwork-web:
+    build:
+      context: ../..
+      dockerfile: packaging/docker/Dockerfile.web
+      args:
+        VITE_OPENWORK_DEPLOYMENT: web
+    ports:
+      - "80"
+    depends_on:
+      - openwork-host
+    restart: unless-stopped
